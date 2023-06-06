@@ -1,6 +1,6 @@
-workspace "OpenGLApp"
+workspace "OpenGLWASM"
 	architecture "x64"
-	startproject "OpenGLApp"
+	startproject "OpenGLWASM"
 
 	configurations 
 	{ 
@@ -22,4 +22,4 @@ group "Dependencies"
 	include "vendor/ImGui"
 group ""
 
-include "OpenGLApp"
+include "OpenGLWASM"
