@@ -40,7 +40,8 @@ float* Mat4ValuePtr(Mat4* mat)
 
 void Mat4Multiply(Mat4* m1, Mat4* m2, Mat4* outResult)
 {
-    Mat4 result;
+    if (outResult == NULL)
+        return;
 
     for (int row = 0; row < 4; row++)
     {
@@ -51,11 +52,9 @@ void Mat4Multiply(Mat4* m1, Mat4* m2, Mat4* outResult)
             {
                 sum += m1->M[row][i] * m2->M[i][col];
             }
-            result.M[row][col] = sum;
+            outResult->M[row][col] = sum;
         }
     }
-
-    memcpy(outResult, &result, sizeof(Mat4));
 }
 
 void MatRotate(Mat4* mat, float angle, const Vec3* rotation, Mat4* outResult)
@@ -69,15 +68,13 @@ void MatRotate(Mat4* mat, float angle, const Vec3* rotation, Mat4* outResult)
     float axisY = rotation->Y;
     float axisZ = rotation->Z;
 
-    float rotationMatrix[4][4] = {
+    Mat4 result = {
+        .M = {
         { cosAngle + (oneMinusCos * axisX * axisX), (oneMinusCos * axisX * axisY) - (sinAngle * axisZ), (oneMinusCos * axisX * axisZ) + (sinAngle * axisY), 0.0f },
         { (oneMinusCos * axisY * axisX) + (sinAngle * axisZ), cosAngle + (oneMinusCos * axisY * axisY), (oneMinusCos * axisY * axisZ) - (sinAngle * axisX), 0.0f },
         { (oneMinusCos * axisZ * axisX) - (sinAngle * axisY), (oneMinusCos * axisZ * axisY) + (sinAngle * axisX), cosAngle + (oneMinusCos * axisZ * axisZ), 0.0f },
         { 0.0f, 0.0f, 0.0f, 1.0f }
-    };
-
-    Mat4 result;
-    memcpy(result.M, rotationMatrix, sizeof(rotationMatrix));
+	}};
 
     Mat4Multiply(mat, &result, outResult);
 }
