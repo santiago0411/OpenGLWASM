@@ -12,7 +12,14 @@ If you prefer not to build the application yourself, pre-compiled binaries are a
 5. Run the executable file for the standalone application or the Run.bat script to deploy the WASM app into a local web server using Python.
 6. If running a WASM app navigate to (http://localhost:8000/) on your preferred browser.
 
+## Downloading the Sources
+If you wish to build the binaries yourself make sure to clone the repository using the command:
 
+``
+git clone https://github.com/santiago0411/OpenGLWASM --recursive
+``
+
+This will ensure all required submodules are also cloned.
 ## WASM Build
 
 To build the WebAssembly (WASM) application, follow these steps:
@@ -24,7 +31,6 @@ To build the WebAssembly (WASM) application, follow these steps:
 5. You can run a local server with Python to host the application using the Run.bat script provided in the build output directory.
 
 Please note that the batch scripts assume that the necessary tools (e.g., emcc) are accessible through the system's PATH environment variable. If any issues arise during the build process, ensure that the required dependencies are correctly installed and accessible.
-
 
 ## Standalone Build
 
