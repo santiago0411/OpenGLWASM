@@ -38,7 +38,7 @@ float* Mat4ValuePtr(Mat4* mat)
     return &mat->M[0][0];
 }
 
-void Mat4Multiply(Mat4* m1, Mat4* m2, Mat4* outResult)
+void Mat4Multiply(const Mat4* m1, const Mat4* m2, Mat4* outResult)
 {
     if (outResult == NULL)
         return;
@@ -57,7 +57,7 @@ void Mat4Multiply(Mat4* m1, Mat4* m2, Mat4* outResult)
     }
 }
 
-void MatRotate(Mat4* mat, float angle, const Vec3* rotation, Mat4* outResult)
+void MatRotate(const Mat4* mat, const float angle, const Vec3* rotation, Mat4* outResult)
 {
     float radian = angle * (float)M_PI / 180.0f;
     float cosAngle = cosf(radian);
