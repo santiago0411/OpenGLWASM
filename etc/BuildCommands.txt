@@ -1,0 +1,14 @@
+emcc MainWASM.c MyMath.c Shader.c -s WASM=1 -s USE_WEBGL2=1 -I D:/Coding/CPP/OpenGLWASM/vendor/Glad/include
+emcc MainWASM.c MyMath.c Shader.c -s WASM=1 -s USE_WEBGL2=1 -I D:/Coding/CPP/OpenGLWASM/vendor/Glad/include -L D:/Coding/CPP/OpenGLWASM/vendor/Glad/bin/Release-windows-x86_64/Glad -lGL
+emcc MainWASM.c MyMath.c Shader.c -s WASM=1 -s USE_WEBGL2=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -I D:/Coding/CPP/OpenGLWASM/vendor/Glad/include -L D:/Coding/CPP/OpenGLWASM/vendor/Glad/bin/Release-windows-x86_64/Glad -lglad
+emcc MainWASM.c MyMath.c Shader.c -s WASM=1 -s USE_WEBGL2=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -I D:/Coding/CPP/OpenGLWASM/vendor/Glad/include D:/Coding/CPP/OpenGLWASM/vendor/Glad/bin/Release-windows-x86_64/Glad/Glad.lib
+emcc MainWASM.c MyMath.c Shader.c glad.o -s WASM=1 -s USE_WEBGL2=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -I D:/Coding/CPP/OpenGLWASM/vendor/Glad/include
+
+emcc MainWASM.c MyMath.c Shader.c glad.o -o OpenGLWASM.js -s WASM=1 -s USE_WEBGL2=1 -s USE_GLFW=3 -I D:/Coding/CPP/OpenGLWASM/vendor/Glad/include -s EXPORT_ALL=1
+
+
+
+
+emcc MainGLFW.c MyMath.c Shader.c glad.o -o OpenGLWASM.js -s WASM=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -I D:/Coding/CPP/OpenGLWASM/vendor/Glad/include
+
+emcc MainGLFW.c MyMath.c Shader.c glad.o -o OpenGLWASM.html -s WASM=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -s EXPORT_ALL=1

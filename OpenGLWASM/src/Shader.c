@@ -4,48 +4,40 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <glad/glad.h>
+#include "OpenGL.h"
 
 static bool CompileShader(const ShaderSpec* shaderSpec, GLuint* outShaderId)
 {
+	printf("Compiling shader:\n%s\n", shaderSpec->Source);
+
 	const GLuint shader = glCreateShader(shaderSpec->Stage);
 	glShaderSource(shader, 1, &shaderSpec->Source, NULL);
 	glCompileShader(shader);
 
-	int32_t result;
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
-
-	if (!result)
+	GLint compileStatus;
+	glGetShaderiv(shader, GL_COMPILE_STATUS, &compileStatus);
+	if (compileStatus == GL_FALSE)
 	{
-		char log[512] = { 0 };
-		glGetShaderInfoLog(shader, sizeof log, NULL, log);
-		fprintf(stderr, "Error compiling shader %d: %s", shaderSpec->Stage, log);
-		glDeleteShader(shader);
-		*outShaderId = UINT32_MAX;
-		return false;
+		GLint logLength;
+		glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
+		char* log = malloc(logLength);
+		glGetShaderInfoLog(shader, logLength, NULL, log);
+		fprintf(stderr, "%s", log);
+		free(log);
 	}
 
 	*outShaderId = shader;
-	return true;
+	return compileStatus == GL_TRUE;
 }
 
 static bool LinkAndValidateProgram(const GLuint shaderId)
 {
+	printf("Linking program: %d\n", shaderId);
 	glLinkProgram(shaderId);
 	glValidateProgram(shaderId);
-
 	int32_t result;
 	glGetProgramiv(shaderId, GL_LINK_STATUS, &result);
-
-	if (!result)
-	{
-		char log[512] = { 0 };
-		glGetProgramInfoLog(shaderId, sizeof log, NULL, log);
-		fprintf(stderr, "Failed to validate shader %s.\n", log);
-		return false;
-	}
-
-	return true;
+	return result;
 }
 
 static void DeleteShaders(const GLuint* shadersCreated, const uint8_t count)
@@ -57,12 +49,13 @@ static void DeleteShaders(const GLuint* shadersCreated, const uint8_t count)
 bool ShaderCreate(GLuint* outShaderId, const ShaderSpec* shaderSpecs, const uint8_t count)
 {
 	const GLuint shaderId = glCreateProgram();
+	printf("Created program: %d\n", shaderId);
 	GLuint* shadersCreated = malloc(count * sizeof(GLuint));
 
 	for (uint8_t i = 0; i < count; i++)
 	{
-		CompileShader(&shaderSpecs[i], &shadersCreated[i]);
-		glAttachShader(shaderId, shadersCreated[i]);
+		if (CompileShader(&shaderSpecs[i], &shadersCreated[i]))
+			glAttachShader(shaderId, shadersCreated[i]);
 	}
 
 	const bool result = LinkAndValidateProgram(shaderId);

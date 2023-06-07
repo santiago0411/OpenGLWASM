@@ -1,12 +1,12 @@
 #pragma once
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 
-const char* ReadFileToEnd(const char* filename) {
+static const char* ReadFileToEnd(const char* filename) {
 
-    FILE* file;
-    if (fopen_s(&file, filename, "rb") != 0)
+    FILE* file = fopen(filename, "rb");
+    if (!file)
     {
         fprintf(stderr, "Failed to open file: %s\n", filename);
         return NULL;
@@ -20,7 +20,7 @@ const char* ReadFileToEnd(const char* filename) {
     // Allocate memory to hold the file contents
     char* buffer = (char*)malloc(fileSize + 1);
     if (buffer == NULL) {
-        fprintf(stderr, "Memory allocation failed.\n");
+        printf(stderr, "Memory allocation failed.\n");
         fclose(file);
         return NULL;
     }
@@ -28,7 +28,7 @@ const char* ReadFileToEnd(const char* filename) {
     // Read the file into the buffer
     size_t bytesRead = fread(buffer, 1, fileSize, file);
     if (bytesRead != fileSize) {
-        fprintf(stderr, "Failed to read file: %s\n", filename);
+        printf(stderr, "Failed to read file: %s\n", filename);
         fclose(file);
         free(buffer);
         return NULL;

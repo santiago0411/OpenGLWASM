@@ -1,6 +1,7 @@
 #include "MyMath.h"
 
-#include <corecrt_math_defines.h>
+#define M_PI 3.14159265358979323846264338327950288
+
 #include <math.h>
 #include <string.h>
 
@@ -29,9 +30,7 @@ void Mat4Init(Mat4* mat, const float s)
 
 void Mat4Identity(Mat4* mat)
 {
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
-            mat->M[i][j] = i == j ? 1.0f : 0.0f;
+    Mat4Init(mat, 1.0f);
 }
 
 float* Mat4ValuePtr(Mat4* mat)
@@ -77,8 +76,8 @@ void MatRotate(Mat4* mat, float angle, const Vec3* rotation, Mat4* outResult)
         { 0.0f, 0.0f, 0.0f, 1.0f }
     };
 
-    Mat4 rotationMatrixStruct;
-    memcpy(rotationMatrixStruct.M, rotationMatrix, sizeof(rotationMatrix));
+    Mat4 result;
+    memcpy(result.M, rotationMatrix, sizeof(rotationMatrix));
 
-    Mat4Multiply(mat, &rotationMatrixStruct, outResult);
+    Mat4Multiply(mat, &result, outResult);
 }

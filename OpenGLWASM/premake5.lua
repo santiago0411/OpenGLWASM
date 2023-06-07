@@ -13,6 +13,12 @@ project "OpenGLWASM"
 		"vendor/stb_image/**.c"
 	}
 
+	removefiles
+	{
+		"src/MainWASM.c",
+		"src/BasicTest.c"
+	}
+
 	includedirs
 	{
 		"src",
