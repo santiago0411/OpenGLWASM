@@ -74,8 +74,8 @@ int main(void)
 	glDebugMessageCallback(OpenGLMessageCallback, NULL);
 #endif
 
-	const char* vertexSource = ReadFileToEnd("shaders/Vertex300.glsl");
-	const char* fragmentSource = ReadFileToEnd("shaders/Fragment300.glsl");
+	const char* vertexSource = ReadFileToEnd("shaders/Vertex450.glsl");
+	const char* fragmentSource = ReadFileToEnd("shaders/Fragment450.glsl");
 
 	if (!vertexSource || !fragmentSource)
 	{
