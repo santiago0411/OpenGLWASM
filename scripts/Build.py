@@ -27,12 +27,12 @@ class BuildConfig:
 
 BASIC_TEST_COMMAND = f"{SRC_PATH}/BasicTest.c -o ../builds/BasicTest/BasicTest.js -s WASM=1 -s EXPORT_ALL=1"
 
-OPENGL_PARAMS_COMMAND = f"{SRC_PATH}/MainWASM.c {SRC_PATH}/MyMath.c {SRC_PATH}/Shader.c {SRC_PATH}/Renderer.c -o " \
+OPENGL_COMMAND = f"{SRC_PATH}/MainWASM.c {SRC_PATH}/MyMath.c {SRC_PATH}/Shader.c {SRC_PATH}/Renderer.c -o " \
                         f"../builds/OpenGL/OpenGL.js -s WASM=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -s EXPORT_ALL=1"
 
 CONFIGS = {
     "basictest": BuildConfig("../builds/BasicTest", "BasicTest", "script - BasicTest.js", "index - BasicTest.html", BASIC_TEST_COMMAND),
-    "opengl": BuildConfig("../builds/OpenGL", "OpenGL", "script - OpenGL.js", "index - OpenGL.html", OPENGL_PARAMS_COMMAND)
+    "opengl": BuildConfig("../builds/OpenGL", "OpenGL", "script - OpenGL.js", "index - OpenGL.html", OPENGL_COMMAND)
 }
 
 
@@ -87,7 +87,6 @@ def emcc_exists():
     if exe is None:
         print("Error: 'emcc' executable not found in PATH.")
         print("Please make sure 'emcc' is installed and added to the system's PATH.")
-        return None
 
     return exe
 
@@ -109,8 +108,8 @@ def build(config: BuildConfig):
     print(result.stdout)
     if result.returncode != 0:
         print("Error: Compilation failed.")
+        delete_folder(config.output_path)
         sys.exit(1)
-        delete_folder(OUTPUT_PATH)
         return
 
     delete_file(f"{config.output_path}/{config.output_name}.js")
