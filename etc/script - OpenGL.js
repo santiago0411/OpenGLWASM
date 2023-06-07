@@ -1057,7 +1057,7 @@ function cStrFree(buffer) {
 }
 
 async function run() {
-    const module = await WebAssembly.instantiateStreaming(fetch('OpenGLWASM.wasm'), {
+    const module = await WebAssembly.instantiateStreaming(fetch('OpenGL.wasm'), {
         'env': wasmImports,
         'wasi_snapshot_preview1': wasmImports,
     });

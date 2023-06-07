@@ -25,7 +25,12 @@ static void OpenGLMessageCallback(uint32_t source, uint32_t type, uint32_t id, u
 	}
 }
 
+#if defined(APP_DIST)
+#include <windows.h>
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
+#else
 int main(void)
+#endif
 {
 	if (!glfwInit())
 	{

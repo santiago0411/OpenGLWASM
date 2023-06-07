@@ -11,4 +11,4 @@ emcc MainWASM.c MyMath.c Shader.c glad.o -o OpenGLWASM.js -s WASM=1 -s USE_WEBGL
 
 emcc MainGLFW.c MyMath.c Shader.c glad.o -o OpenGLWASM.js -s WASM=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -I D:/Coding/CPP/OpenGLWASM/vendor/Glad/include
 
-emcc MainGLFW.c MyMath.c Shader.c glad.o -o OpenGLWASM.html -s WASM=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -s EXPORT_ALL=1
+emcc MainWASM.c MyMath.c Shader.c Renderer.c -o OpenGLWASM.html -s WASM=1 -s USE_GLFW=3 -s USE_WEBGL2=1 -s EXPORT_ALL=1

@@ -2,6 +2,8 @@
 **/bin/
 bin-int/
 builds/
+Release/
+Release.zip
 
 # Visual Studio files and folder
 **/.idea/

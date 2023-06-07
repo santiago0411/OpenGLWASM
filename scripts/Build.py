@@ -15,18 +15,30 @@ class BuildConfig:
     src_file: str
     js_file_name: str
     index_file_name: str
+    command: []
 
-    def __init__(self, output_path: str, output_name: str, src_file: str, js_file_name: str, index_file_name: str):
+    def __init__(self, output_path: str, output_name: str, js_file_name: str, index_file_name: str, command: []):
         self.output_path = output_path
         self.output_name = output_name
-        self.src_file = src_file
         self.js_file_name = js_file_name
         self.index_file_name = index_file_name
+        self.command = command
 
+
+BASIC_TEST_COMMAND = [
+               f"{SRC_PATH}/BasicTest.c",
+               "-o", "../builds/BasicTest/BasicTest.js", "-s", "WASM=1",
+               "-s", "EXPORT_ALL=1"]
+
+OPENGL_PARAMS_COMMAND = [
+               f"{SRC_PATH}/MainWASM.c", f"{SRC_PATH}/MyMath.c", f"{SRC_PATH}/Shader.c", f"{SRC_PATH}/Renderer.c",
+               "-o", "../builds/OpenGL/OpenGL.js", "-s", "WASM=1",
+               "-s", "USE_GLFW=3", "-s", "USE_WEBGL2=1",
+               "-s", "EXPORT_ALL=1"]
 
 CONFIGS = {
-    "basictest": BuildConfig("../builds/BasicTest", "BasicTest", "BasicTest.c", "script - BasicTest.js", "index - BasicTest.html"),
-    "opengl": BuildConfig("../builds/OpenGL", "OpenGL", "MainWASM.c", "script - OpenGL.js", "index - OpenGL.html")
+    "basictest": BuildConfig("../builds/BasicTest", "BasicTest", "script - BasicTest.js", "index - BasicTest.html", BASIC_TEST_COMMAND),
+    "opengl": BuildConfig("../builds/OpenGL", "OpenGL", "script - OpenGL.js", "index - OpenGL.html", OPENGL_PARAMS_COMMAND)
 }
 
 
@@ -96,13 +108,9 @@ def build(config: BuildConfig):
         sys.exit(1)
         return
 
-    command = [exe,
-               f"{SRC_PATH}/{config.src_file}", f"{SRC_PATH}/MyMath.c", f"{SRC_PATH}/Shader.c", f"{SRC_PATH}/Renderer.c",
-               "-o", f"{config.output_path}/{config.output_name}.js", "-s", "WASM=1",
-               "-s", "USE_GLFW=3", "-s", "USE_WEBGL2=1",
-               "-s", "EXPORT_ALL=1"]
+    config.command.insert(0, exe)
 
-    result = subprocess.run(command, capture_output=True, text=True, shell=True)
+    result = subprocess.run(config.command, capture_output=True, text=True, shell=True)
     print(result.stdout)
     if result.returncode != 0:
         print("Error: Compilation failed.")
