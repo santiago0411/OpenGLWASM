@@ -1,8 +1,10 @@
 # Binaries
 **/bin/
 bin-int/
+builds/
 
 # Visual Studio files and folder
+**/.idea/
 .vs/
 **.sln
 **.vcxproj
